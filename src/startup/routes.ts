@@ -7,6 +7,7 @@ import rentals from '../routes/rentals.js';
 import users from '../routes/users.js';
 import auth from '../routes/auth.js';
 import errorMiddleware from '../middlewares/error.js';
+import returns from '../routes/returns.js';
 
 export default function configureRoutes(app: Application) {
   app.use(express.json());
@@ -17,5 +18,6 @@ export default function configureRoutes(app: Application) {
   app.use('/api/rentals', rentals);
   app.use('/api/users', users);
   app.use('/api/auth', auth);
+  app.use('/api/returns', returns);
   app.use(errorMiddleware);
 }
