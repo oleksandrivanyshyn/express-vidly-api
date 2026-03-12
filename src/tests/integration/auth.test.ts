@@ -1,11 +1,4 @@
-import {
-  jest,
-  describe,
-  it,
-  expect,
-  beforeEach,
-  afterEach,
-} from '@jest/globals';
+import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
 import request from 'supertest';
 import { User } from '../../models/user.js';
 import { Genre } from '../../models/genre.js';

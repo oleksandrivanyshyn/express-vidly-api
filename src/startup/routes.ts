@@ -8,15 +8,9 @@ import users from '../routes/users.js';
 import auth from '../routes/auth.js';
 import errorMiddleware from '../middlewares/error.js';
 import returns from '../routes/returns.js';
-import helmet from 'helmet';
-import cors from 'cors';
-import compression from 'compression';
 
 export default function configureRoutes(app: Application) {
   app.use(express.json());
-  app.use(helmet());
-  app.use(compression());
-  app.use(cors());
 
   app.use('/api/genres', genres);
   app.use('/api/customers', customers);
