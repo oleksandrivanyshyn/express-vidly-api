@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import type { Request, Response } from 'express';
-import mongoose from 'mongoose';
 import { Rental, validateRental, type RentalInput } from '../models/rental.js';
 import { Movie } from '../models/movie.js';
 import { Customer } from '../models/customer.js';
 import validateObjectId from '../middlewares/validateObjectId.js';
+import mongoose from 'mongoose';
 
 const router = Router();
 
@@ -16,11 +16,6 @@ router.get('/', async (_: Request, res: Response) => {
 router.post('/', async (req: Request<{}, {}, RentalInput>, res: Response) => {
   const { error } = validateRental(req.body);
   if (error) return res.status(400).send(error.details[0]?.message);
-
-  if (!mongoose.Types.ObjectId.isValid(String(req.body.customerId)))
-    return res.status(400).send('Invalid Customer ID format.');
-  if (!mongoose.Types.ObjectId.isValid(String(req.body.movieId)))
-    return res.status(400).send('Invalid Movie ID format.');
 
   const customer = await Customer.findById(req.body.customerId);
   if (!customer) return res.status(400).send('Invalid customer.');

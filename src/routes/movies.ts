@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import type { Request, Response } from 'express';
-import mongoose from 'mongoose';
 import { Movie, validateMovie, type MovieInput } from '../models/movie.js';
 import { Genre } from '../models/genre.js';
 import validateObjectId from '../middlewares/validateObjectId.js';
@@ -15,9 +14,6 @@ router.get('/', async (_: Request, res: Response) => {
 router.post('/', async (req: Request<{}, {}, MovieInput>, res: Response) => {
   const { error } = validateMovie(req.body);
   if (error) return res.status(400).send(error.details[0]?.message);
-
-  if (!mongoose.Types.ObjectId.isValid(String(req.body.genreId)))
-    return res.status(400).send('Invalid Genre ID format.');
 
   const genre = await Genre.findById(req.body.genreId);
   if (!genre) return res.status(400).send('Invalid genre.');
@@ -39,9 +35,6 @@ router.put(
   async (req: Request<{ id: string }, {}, MovieInput>, res: Response) => {
     const { error } = validateMovie(req.body);
     if (error) return res.status(400).send(error.details[0]?.message);
-
-    if (!mongoose.Types.ObjectId.isValid(String(req.body.genreId)))
-      return res.status(400).send('Invalid Genre ID format.');
 
     const genre = await Genre.findById(req.body.genreId);
     if (!genre) return res.status(400).send('Invalid genre.');
