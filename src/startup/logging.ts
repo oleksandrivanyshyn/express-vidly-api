@@ -19,17 +19,24 @@ export default function configureLogging() {
     }),
   );
 
+  // 4. Логування в MongoDB (Закоментовано для продакшену)
+  /*
   winston.add(
     new winston.transports.MongoDB({
-      db: 'mongodb://127.0.0.1:27017/vidly',
+      db: process.env.DB_URI || 'mongodb://127.0.0.1:27017/vidly',
       level: 'error',
+      options: { useUnifiedTopology: true }
     }),
   );
+  */
 
   if (process.env.NODE_ENV !== 'production') {
     winston.add(
       new winston.transports.Console({
-        format: winston.format.simple(),
+        format: winston.format.combine(
+          winston.format.colorize(),
+          winston.format.simple(),
+        ),
       }),
     );
   }

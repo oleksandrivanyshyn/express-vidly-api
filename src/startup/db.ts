@@ -2,10 +2,11 @@ import mongoose from 'mongoose';
 import winston from 'winston';
 
 export default function configureDb() {
-  const db =
-    process.env.NODE_ENV === 'test'
-      ? 'mongodb://127.0.0.1:27017/vidly_test'
-      : 'mongodb://127.0.0.1:27017/vidly';
+  let db = process.env.DB_URI || 'mongodb://127.0.0.1:27017/vidly';
+
+  if (process.env.NODE_ENV === 'test') {
+    db = 'mongodb://127.0.0.1:27017/vidly_test';
+  }
 
   mongoose.connect(db).then(() => winston.info(`Connected to ${db}...`));
 }
