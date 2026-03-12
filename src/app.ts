@@ -1,6 +1,7 @@
 import express from 'express';
 import genres from './routes/genres.js';
 import mongoose from 'mongoose';
+import customers from './routes/customers.js';
 const app = express();
 
 mongoose
@@ -10,5 +11,6 @@ mongoose
 
 app.use(express.json());
 app.use('/api/genres', genres);
+app.use('/api/customers', customers);
 
 export default app;
