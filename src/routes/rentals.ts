@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import { Rental, validateRental, type RentalInput } from '../models/rental.js';
 import { Movie } from '../models/movie.js';
 import { Customer } from '../models/customer.js';
+import validateObjectId from '../middlewares/validateObjectId.js';
 
 const router = Router();
 
@@ -63,10 +64,7 @@ router.post('/', async (req: Request<{}, {}, RentalInput>, res: Response) => {
   }
 });
 
-router.get('/:id', async (req: Request, res: Response) => {
-  if (!mongoose.Types.ObjectId.isValid(String(req.params.id!)))
-    return res.status(400).send('Invalid ID.');
-
+router.get('/:id', validateObjectId, async (req: Request, res: Response) => {
   const rental = await Rental.findById(req.params.id);
 
   if (!rental)
