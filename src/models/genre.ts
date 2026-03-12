@@ -9,7 +9,7 @@ export interface GenreInput {
   name: string;
 }
 
-const genreSchema = new Schema<IGenre>({
+export const genreSchema = new Schema<IGenre>({
   name: {
     type: String,
     required: true,
