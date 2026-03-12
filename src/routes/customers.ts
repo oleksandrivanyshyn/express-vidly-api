@@ -1,40 +1,11 @@
 import { Router } from 'express';
 import type { Request, Response } from 'express';
-import Joi from 'joi';
-import mongoose, { Schema, model, Document } from 'mongoose';
-
-interface ICustomer extends Document {
-  name: string;
-  isGold: boolean;
-  phone: string;
-}
-
-interface CustomerInput {
-  name: string;
-  isGold?: boolean;
-  phone: string;
-}
-
-const customerSchema = new Schema<ICustomer>({
-  name: {
-    type: String,
-    required: true,
-    minlength: 5,
-    maxlength: 50,
-  },
-  isGold: {
-    type: Boolean,
-    default: false,
-  },
-  phone: {
-    type: String,
-    required: true,
-    minlength: 5,
-    maxlength: 50,
-  },
-});
-
-const Customer = model<ICustomer>('Customer', customerSchema);
+import mongoose from 'mongoose';
+import {
+  Customer,
+  validateCustomer,
+  type CustomerInput,
+} from '../models/customer.js';
 
 const router = Router();
 
@@ -111,15 +82,5 @@ router.delete('/:id', async (req: Request, res: Response) => {
 
   res.send(customer);
 });
-
-function validateCustomer(customer: CustomerInput) {
-  const schema = Joi.object<CustomerInput>({
-    name: Joi.string().min(5).max(50).required(),
-    phone: Joi.string().min(5).max(50).required(),
-    isGold: Joi.boolean(),
-  });
-
-  return schema.validate(customer);
-}
 
 export default router;
